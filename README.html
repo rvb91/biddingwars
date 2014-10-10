@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1.5em;border-top:4px solid #e0e0e0;padding-top:.5em;}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>READ ME</title>
+
+</head>
+<body>
+<h1>READ ME</h1>
+
+<h3>Raghav Bagla (raghav.bagla@gmail.com)</h3>
+
+<h3><strong>Ruby Version and gemset :</strong>  ruby-2.0.0-p353@raghav_joist</h3>
+
+<h3>Database: Sqlite</h3>
+
+<h3>Rails 4.1.1</h3>
+
+<h2>Setup Instructions</h2>
+
+<p>This is a standard Rails 4 app. All testing and development was done in development mode. To get the app running please follow the steps given below.</p>
+
+<p>Assuming bundler, rvm already installed</p>
+
+<pre><code>cd raghav_joist_exec
+bundle install
+bundle exec rake db:reset 
+bundle exec rake db:migrate
+bundle exec rails s
+</code></pre>
+
+<p>A development server will be started at <strong>localhost:3000</strong></p>
+
+<h2>Assumptions Made</h2>
+
+<ul>
+<li><p>when <strong>no one makes a valid bid</strong> before auction closes on an item, the <strong>currentPrice is set to 0 </strong>and the <strong>bestBidderId is set to 0</strong>.</p></li>
+<li><p>A <strong>user does not ownItem</strong> (win the bid) <strong>till the auction finishes</strong>. That is - snapshot will not show that they own the item even if they are the current highest bidder.</p></li>
+<li><p>When a user is added to the system, the parameter <strong>userId will be unique</strong>. That is - no 2 users can have the same userId. The <strong>budget and userId</strong> will also be <strong>greater than 0</strong>.</p></li>
+<li><p>An item can have a bidding <strong>startPrice between 1 to 999999</strong> (inclusive)</p></li>
+<li><p>A <strong>bid</strong> on an item can be <strong>between 1 to 1 Million</strong> (inclusive). A users <strong>budget</strong> can be <strong>maximum of 1 Million</strong></p></li>
+<li><p>A <strong>userId associated</strong> with an <strong>item</strong> will be a <strong>valid user</strong>. That is the user will be added before the item is added by that user.</p></li>
+<li><p>A <strong>user</strong> who the item belongs to <strong>cannot bid on his own item</strong>. Will return "insufficient funds"</p></li>
+<li><p><strong>2 or more users</strong> trying to bid at exactly the <strong>same time on the same item</strong> will be an <strong>exception not the norm</strong>. This is assumed because no where does the user come to know when the bid will end. So sniping like on eBay should not come into play.</p></li>
+<li><p>2 or more users trying to bid at exactly the same time (on different items) will not happen often. Basically low write concurrency. (assumed because of limitation of sqlite to only 1 writer at a time. This can be easily mitigated by moving to a full database)</p></li>
+</ul>
+
+</body>
+</html>
