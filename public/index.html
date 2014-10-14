@@ -1,0 +1,30 @@
+<html ng-app='biddingWars'>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Bidding Wars</title>
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+		 <script src="/app/index.js"></script>
+	</head>
+	<body>
+		<div class='container'>
+			<div class='row'>
+				<div class='col-md-2'>
+					<h3>Bidding Wars</h3>
+					<ul>
+						<li>Users</li>
+						<li>Items Available</li>
+					</ul>
+				</div>				
+				<div class='col-md-8' ng-controller="HomeControl as home" >
+					<h3>Items for Sale</h3>
+					<ul>
+						<li ng-repeat='i in home.items' ng-click="home.removeFromStock(i, $index)" >{{i.name}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
