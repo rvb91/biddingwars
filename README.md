@@ -3,7 +3,7 @@
 ### Raghav Bagla (raghav.bagla@gmail.com)
 
 
-### **Ruby Version and gemset :**  ruby-2.0.0-p353@raghav_joist
+### **Ruby Version and gemset :**  ruby-2.0.0-p353
 ### Database: Sqlite
 ### Rails 4.1.1
 
@@ -13,7 +13,7 @@ This is a standard Rails 4 app. All testing and development was done in developm
 
 Assuming bundler, rvm already installed
 
-	cd raghav_joist_exec
+	cd /path/to/folder/containing/code
 	bundle install
 	bundle exec rake db:reset 
 	bundle exec rake db:migrate
@@ -22,8 +22,15 @@ Assuming bundler, rvm already installed
 A development server will be started at **localhost:3000** 
 
 
+### A Note on Broken Conventions
+The models also contain a number of elements that break Rails Convention such as using custom defined field of userId instead of user_id. This was intentional by design to learn more about custom directives for defining the primary key. This will probably be reverted back in a future update. 
+
+Angular is also kept in the /public directory instead of inside the Rails app. An intentional choice to keep Rails as just the API and angular as the frontend.
+
 
 ## Assumptions Made
+
+The following assumptions were made to limt the scope of the code.
 
 * when **no one makes a valid bid** before auction closes on an item, the **currentPrice is set to 0 **and the **bestBidderId is set to 0**. 
 
